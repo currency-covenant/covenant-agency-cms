@@ -1,0 +1,37 @@
+
+echo '🏗️👷🏽Styling, testing and building your project before committing'
+
+# Check Prettier Standards
+pnpm run check-format ||
+(
+    echo '🤮🤢🤮 It's F***ING RAW - That styling looks DISGUSTING. 🤮🤢🤮
+            Styling Check failed. Run pnpm run format, add changes and try commit again.'
+    false;
+)
+
+# Check ESLint Standards
+pnpm run lint ||
+(
+    echo  '😤🏀👋😤 Get that weak s**t out of here! 😤🏀👋😤
+            ESLint Check failed. Make the required changes listed above, add changes and try to commit again.'
+    false;
+)
+
+# Check tsconfig Standards
+pnpm run check-types ||
+(
+    echo '❌😂 Failed Type Check 😂❌
+            You can't be serious trying to commit that with the types wrong? Make the changes required above'
+    false;
+)
+
+# If all pass.. try to run a build
+pnpm run build ||
+(
+    echo  '❌👷🏽🔨❌ Better call Bob... Because your build failed ❌👷🏽🔨❌
+            ESLint Check failed. Make the required changes listed above, add changes and try to commit again.'
+    false;
+)
+
+# If it builds commit is not available
+echo '✅⚔️ Congratulations warrior... Your commit has passed. ⚔️✅'
