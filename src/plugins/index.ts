@@ -9,6 +9,8 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
+import type { Config } from '../payload-types.ts'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -88,5 +90,20 @@ export const plugins: Plugin[] = [
         return [...defaultFields, ...searchFields]
       },
     },
+  }),
+  multiTenantPlugin<Config>({
+    collections: {
+      pages: {},
+    },
+    tenantField: {
+      access: {
+        read: () => true,
+        update: () => true,
+      },
+    },
+    tenantsArrayField: {
+      includeDefaultField: false,
+    },
+    userHasAccessToAllTenants: () => true,
   }),
 ]
